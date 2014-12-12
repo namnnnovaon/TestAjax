@@ -1,0 +1,101 @@
+﻿<html>
+<head>
+    <title>Test Ajax</title>
+</head>
+<body>
+    <div>
+        <input type="submit" value="Geting Started" onclick="message();" /><br />
+        <a href="javascript:window.open('http://code.jquery.com/jquery-1.11.1.min.js')">Open new windown</a>
+        <div>
+            1 : <input id="p1" name="p1" placeholder="...." /><br />
+            2 : <input id="p2" name="p2" placeholder="...." onkeyup="vld(); return false;" /><span id="confirm"></span><br />
+            3 : <input id="user" name="user" onchange="TimeOutUser()"> <span id="check"></span> <img id="img" src="ajax-loader.gif" style="display:none" width="25" height="25" />
+            4 :Email : <input id="email"> <span id="emailcheck"></span>
+        </div>
+        <div id="message"></div><br />
+        <input name="Submit" type="submit" onmousemove="gettimeout();" onmouseout="over();" value="getValue" />
+        <div style="display:none" id="test1">
+            <p id="test">12345</p>
+        </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function message(){
+		var d = document.getElementById("message");
+		d.style.color = "red";
+		d.innerHTML ="Geting started";
+		};
+
+		function vld(){
+			var p1 = document.getElementById("p1");
+			var p2 = document.getElementById("p2");
+			var confirm = document.getElementById("confirm");
+			if(p1.value != p2.value){
+				p2.style.backgroundColor = "red";
+				confirm.innerHTML = "Not Ok";
+			}
+			else
+			{
+				p2.style.backgroundColor = "#ffffff";
+				confirm.innerHTML = "Ok";
+			}
+		};
+		function gettimeout(){
+			setTimeout(getValue, 5*1000);
+			};
+
+		function getValue(){
+		var val = document.getElementById("test1");
+		val.style.display = "block";
+		};
+
+		function over(){
+		var val = document.getElementById("test1");
+		val.style.display = "none";
+		};
+
+		function TimeOutUser(){
+			var check = document.getElementById("check");
+			var img = document.getElementById("img");
+			check.innerHTML = "checking";
+			img.style.display = "block";
+			setTimeout(checkUser, 3*1000);
+			}
+		function checkUser(){
+
+			var user = document.getElementById("user");
+			var check = document.getElementById("check");
+			var img = document.getElementById("img");
+			check.innerHTML = "checking";
+			img.style.display = "block";
+			if(user.value == "user"){
+				check.innerHTML = "Invalid";
+				}
+			else{
+				check.innerHTML = "Ok";
+				img.style.display = "none";
+				}
+		}
+
+		$("#email").change(function () {
+		   
+		        $.ajax({
+		            url: "/Home/checkEmail",
+		            type: "POST",
+		            data: { email: $("#email").val()},
+		            success: function (data) {
+		                alert(data)
+		                var emailcheck = document.getElementById("emailcheck");
+		                if (data == "correct") {
+		                    emailcheck.innerHTML = "valid";
+		                }else {
+		                    emailcheck.innerHTML = "invalid";
+		                }
+		            }
+		        });
+		    
+		});
+    </script>
+</body>
+</html>
